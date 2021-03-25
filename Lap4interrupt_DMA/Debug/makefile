@@ -54,8 +54,8 @@ all: main-build
 main-build: Lap4interrupt_DMA.elf secondary-outputs
 
 # Tool invocations
-Lap4interrupt_DMA.elf: $(OBJS) $(USER_OBJS) C:\Users\HP\STM32CubeIDE\workspace_1.5.0\Lap4interrupt_DMA\STM32F411RETX_FLASH.ld
-	arm-none-eabi-gcc -o "Lap4interrupt_DMA.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\HP\STM32CubeIDE\workspace_1.5.0\Lap4interrupt_DMA\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lap4interrupt_DMA.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Lap4interrupt_DMA.elf: $(OBJS) $(USER_OBJS) C:\git\Lab4interrupt\Lap4interrupt_DMA\STM32F411RETX_FLASH.ld
+	arm-none-eabi-gcc -o "Lap4interrupt_DMA.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\git\Lab4interrupt\Lap4interrupt_DMA\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lap4interrupt_DMA.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
