@@ -50,8 +50,8 @@ uint32_t ADC_data[2] = {0};
 
 uint16_t press = 0 ;
 
-uint32_t time_LD2off_to_LD2on = 0;	 	//Random
-uint32_t time_LD2on_to_USERpress = 0;	//We have to find THIS ONE!!!
+uint32_t Time_Random = 0;	 	//Random
+uint32_t Time_Find = 0;	//We have to find THIS ONE!!!
 
 /* USER CODE END PV */
 
@@ -313,7 +313,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		if (press == 0)
 		{
 			press = 1;
-			time_LD2off_to_LD2on = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
+			Time_Random = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		}
 		else
