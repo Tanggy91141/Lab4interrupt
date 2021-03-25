@@ -50,8 +50,13 @@ uint32_t ADC_data[2] = {0};
 
 uint16_t press = 0 ;
 
-uint32_t Time_Random = 0;	 	//Random
-uint32_t Time_Find = 0;	//We have to find THIS ONE!!!
+uint32_t Time_Random = 0;	 		//Random
+uint32_t Time_Find = 0;				//We have to find THIS ONE!!!
+
+uint32_t time_LEDoff = 0;
+uint32_t time_waitfor_LEDon = 0;
+uint32_t time_LEDon = 0;
+uint32_t time_runaway = 0;			//When user raise his/her finger.
 
 /* USER CODE END PV */
 
@@ -310,19 +315,30 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == GPIO_PIN_13)
 	{
-		if (press == 0)
+		if (press == 0) // press
 		{
-			press = 1;
 			Time_Random = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-		}
-		else
-		{
-			press = 0;
-//			time_LD2off_to_LD2on = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
+
+			//Delay by while-loop
+			while(Time_Random >= (time_waitfor_LEDon - time_LEDon))
+			{
+				time_waitfor_LEDon = HAL_GetTick();
+			}
+
+			time_LEDon = time_waitfor_LEDon; //This row is dispensable.
+
+			//LED ON
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			press = 1;
 		}
-//		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+		else			// rise
+		{
+			time_runaway = HAL_GetTick();
+			Time_Find = time_runaway - time_LEDon;
+			press = 0;
+
+		}
 
 	}
 }
