@@ -310,20 +310,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == GPIO_PIN_13)
 	{
-//		press = 1;
 		if (press == 0)
 		{
 			press = 1;
-//			time_LD2off_to_LD2on = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
-//			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+			time_LD2off_to_LD2on = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		}
 		else
 		{
 			press = 0;
 //			time_LD2off_to_LD2on = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
-//			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 		}
-		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
 	}
 }
