@@ -58,6 +58,8 @@ uint32_t time_waitfor_LEDon = 0;
 uint32_t time_LEDon = 0;
 uint32_t time_runaway = 0;			//When user raise his/her finger.
 
+uint32_t time_test = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -321,9 +323,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
 			//Delay by while-loop
-			while(Time_Random >= (time_waitfor_LEDon - time_LEDon))
+			while(Time_Random >= (time_waitfor_LEDon - time_LEDoff))
 			{
 				time_waitfor_LEDon = HAL_GetTick();
+				time_test = time_waitfor_LEDon - time_LEDoff;
 			}
 
 			time_LEDon = time_waitfor_LEDon; //This row is dispensable.
