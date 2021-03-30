@@ -137,9 +137,9 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 
-	  time_waitfor_LEDon = HAL_GetTick();
-	  time_LEDon = HAL_GetTick();
-	  time_LEDoff = HAL_GetTick();
+//	  time_waitfor_LEDon = HAL_GetTick();
+//	  time_LEDon = HAL_GetTick();
+//	  time_LEDoff = HAL_GetTick();
   }
   /* USER CODE END 3 */
 }
