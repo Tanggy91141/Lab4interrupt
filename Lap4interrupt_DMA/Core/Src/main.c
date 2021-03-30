@@ -84,7 +84,7 @@ static void MX_ADC1_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+//	uint32_t time_waitfor_LEDon = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -109,7 +109,23 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+
   HAL_ADC_Start_DMA(&hadc1, ADC_data, 2);
+
+//  uint32_t ADC_data[2] = {0};
+//
+//  uint16_t press = 0 ;
+//
+//  uint32_t Time_Random = 0;	 		//Random
+//  uint32_t Time_Find = 0;				//We have to find THIS ONE!!!
+//
+//  uint32_t time_LEDoff = 0;
+//  uint32_t time_waitfor_LEDon = 0;
+//  uint32_t time_LEDon = 0;
+//  uint32_t time_runaway = 0;			//When user raise his/her finger.
+//
+//  uint32_t time_test = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,6 +136,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+
+	  time_waitfor_LEDon = HAL_GetTick();
+	  time_LEDon = HAL_GetTick();
+	  time_LEDoff = HAL_GetTick();
   }
   /* USER CODE END 3 */
 }
