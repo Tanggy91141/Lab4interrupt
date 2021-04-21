@@ -112,20 +112,6 @@ int main(void)
 
   HAL_ADC_Start_DMA(&hadc1, ADC_data, 2);
 
-//  uint32_t ADC_data[2] = {0};
-//
-//  uint16_t press = 0 ;
-//
-//  uint32_t Time_Random = 0;	 		//Random
-//  uint32_t Time_Find = 0;				//We have to find THIS ONE!!!
-//
-//  uint32_t time_LEDoff = 0;
-//  uint32_t time_waitfor_LEDon = 0;
-//  uint32_t time_LEDon = 0;
-//  uint32_t time_runaway = 0;			//When user raise his/her finger.
-//
-//  uint32_t time_test = 0;
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -136,10 +122,16 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
 //	  time_waitfor_LEDon = HAL_GetTick();
-//	  time_LEDon = HAL_GetTick();
-//	  time_LEDoff = HAL_GetTick();
+	  if(press == 1){
+		  time_waitfor_LEDon = HAL_GetTick();
+	  }
+	  if((press == 1)&&(Time_Random <= ((int)time_waitfor_LEDon - (int)time_LEDoff))){
+		  time_LEDon = time_waitfor_LEDon; //This row is dispensable.
+		  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+		  press = 2;
+	  }
+
   }
   /* USER CODE END 3 */
 }
@@ -227,7 +219,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -311,7 +303,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);		//start with LD2 on
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -341,19 +333,22 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		{
 			Time_Random = 1000 + (((22695477* ADC_data[0]) + ADC_data[1])%10000) ;
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+			time_LEDoff = HAL_GetTick();
 
-			//Delay by while-loop
-			while(Time_Random >= (time_waitfor_LEDon - time_LEDoff))
-			{
-				time_waitfor_LEDon = HAL_GetTick();
-				time_test = time_waitfor_LEDon - time_LEDoff;
-			}
-
-			time_LEDon = time_waitfor_LEDon; //This row is dispensable.
-
-			//LED ON
-			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			press = 1;
+
+//			//Delay by while-loop
+//			while(Time_Random >= (time_waitfor_LEDon - time_LEDoff))
+//			{
+//				time_waitfor_LEDon = HAL_GetTick();
+//				time_test = time_waitfor_LEDon - time_LEDoff;
+//			}
+//
+//			time_LEDon = time_waitfor_LEDon; //This row is dispensable.
+//
+//			//LED ON
+//			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+//			press = 1;
 		}
 		else			// rise
 		{
