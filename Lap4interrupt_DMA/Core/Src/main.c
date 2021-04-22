@@ -122,12 +122,10 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-//	  time_waitfor_LEDon = HAL_GetTick();
 	  if(press == 1){
 		  time_waitfor_LEDon = HAL_GetTick();
 
 		  if(Time_Random <= ((int)time_waitfor_LEDon - (int)time_LEDoff)){
-//			  time_LEDon = time_waitfor_LEDon; //This row is dispensable.
 			  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			  press = 2;
 		  }
@@ -337,28 +335,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			time_LEDoff = HAL_GetTick();
 
 			press = 1;
-
-//			//Delay by while-loop
-//			while(Time_Random >= (time_waitfor_LEDon - time_LEDoff))
-//			{
-//				time_waitfor_LEDon = HAL_GetTick();
-//				time_test = time_waitfor_LEDon - time_LEDoff;
-//			}
-//
-//			time_LEDon = time_waitfor_LEDon; //This row is dispensable.
-//
-//			//LED ON
-//			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-//			press = 1;
 		}
 		else			// rise
 		{
-//			time_runaway = HAL_GetTick();
-//			Time_Find = time_runaway - time_LEDon;
 			Time_Find = HAL_GetTick() - time_waitfor_LEDon;
 
+			//reset
 			press = 0;
 
+			//reset for live expression
+			Time_Random = 0;
+			time_waitfor_LEDon = 0;
 
 		}
 
