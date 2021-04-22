@@ -54,9 +54,7 @@ uint32_t Time_Random = 0;	 		//Random
 uint32_t Time_Find = 0;				//We have to find THIS ONE!!!
 
 uint32_t time_LEDoff = 0;
-uint32_t time_waitfor_LEDon = 0;
-//uint32_t time_LEDon = 0;
-//uint32_t time_runaway = 0;			//When user raise his/her finger.
+uint32_t time_waitfor_LEDon = 0;	//When user raise his/her finger.
 
 /* USER CODE END PV */
 
